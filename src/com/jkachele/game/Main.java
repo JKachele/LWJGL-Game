@@ -10,6 +10,7 @@ package com.jkachele.game;
 import com.jkachele.game.Renderer.Window;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.glClearColor;
 
 public class Main implements Runnable {
 
@@ -61,10 +62,9 @@ public class Main implements Runnable {
                 tick();
                 delta--;
             }
-            if (isRunning)
+            if (isRunning) {
                 render();
-            if (glfwWindowShouldClose(window)) {
-
+                window.loop();
             }
             frames++;
 

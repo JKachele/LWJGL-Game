@@ -7,13 +7,16 @@
  ******************************************/
 package com.jkachele.game.Renderer;
 
+import lombok.Getter;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+@Getter
 public class Window {
 
     private final int WIDTH, HEIGHT;
@@ -67,5 +70,18 @@ public class Window {
         creates the GLCapabilities instance and makes the OpenGL
         bindings available for use. */
         GL.createCapabilities();
+    }
+
+    public void loop() {
+        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        while (!glfwWindowShouldClose(glfwWindow)) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            glfwSwapBuffers(glfwWindow); // swap the color buffers
+
+            // Poll for window events. The key callback above will only be
+            // invoked during this call.
+            glfwPollEvents();
+        }
     }
 }
