@@ -1,3 +1,10 @@
+/******************************************
+ *Project-------LWJGL-Game
+ *File----------Window.java
+ *Author--------Justin Kachele
+ *Date----------9/22/2022
+ *License-------GNU GENERAL PUBLIC LICENSE
+ ******************************************/
 package com.jkachele.game.Renderer;
 
 import org.lwjgl.*;
@@ -9,29 +16,22 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
 
-    private final int width, height;
-    private final String title;
+    private final int WIDTH, HEIGHT;
+    private final String TITLE;
     private long glfwWindow;
 
-    private static Window window = null;
+    private static final Window window = null;
 
-    private Window() {
-        this.width = 1920;
-        this.height = 1080;
-        this.title = "Mario";
-    }
-
-    public static Window getInstance() {
-        if (Window.window == null)
-            window = new Window();
-        return window;
-    }
-
-    public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
+    private Window(int WIDTH, int HEIGHT, String TITLE) {
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        this.TITLE = TITLE;
         init();
-        loop();
+    }
+
+    public static Window getInstance(int WIDTH, int HEIGHT, String TITLE) {
+        new Window(WIDTH, HEIGHT, TITLE);
+        return window;
     }
 
     public void init() {
@@ -49,13 +49,13 @@ public class Window {
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);              //Window will start maximized
 
         //create the window
-        glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+        glfwWindow = glfwCreateWindow(this.WIDTH, this.HEIGHT, this.TITLE, NULL, NULL);
         if (glfwWindow == NULL)
             throw new RuntimeException("Failed to create GLFW window");
 
         //make the openGL context current
         glfwMakeContextCurrent(glfwWindow);
-        //enable v-sync
+        //enable v-sync (waits 1 screen refresh to render new frame)
         glfwSwapInterval(1);
 
         //make the window visible
@@ -67,9 +67,5 @@ public class Window {
         creates the GLCapabilities instance and makes the OpenGL
         bindings available for use. */
         GL.createCapabilities();
-    }
-
-    public void loop() {
-
     }
 }
